@@ -12,7 +12,6 @@
   * Run `npm i` in the root level
 
   #### Other Commands:
-  * Run `npm test` to run tests
   * Run `npm start development` to run locally
   
 # Information & Documentation
