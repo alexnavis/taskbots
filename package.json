@@ -1,0 +1,43 @@
+{
+  "name": "taskbots",
+  "description": "Simple enterprise node app server.",
+  "version": "1.0.0",
+  "main": "index.js",
+  "engines": {
+    "node": "^6.x"
+  },
+  "license": "Apache",
+  "scripts": {
+    "start": "node index.js --e",
+    "test": "mocha -R spec --recursive",
+    "deploy": "pm2 deploy otherdocs/deployment/ecosystem.json",
+    "sass": "node-sass public/container/job-service-container/stylesheet/cis.scss --output public/container/job-service-container/stylesheet/",
+    "build": "cd content/container/job-service-container && node_modules/.bin/webpack --config config/webpack.config.js && cp -r public ../../../public/container/job-service-container && cd ../../../"
+  },
+  "dependencies": {
+    "@digifi-los/reactapp": "^0.0.4",
+    "@digifi/app-config-loader": "^0.0.4",
+    "aws-sdk": "^2.481.0",
+    "cron": "^1.7.1",
+    "cronstrue": "^1.72.0",
+    "decamelize": "^1.2.0",
+    "ejs": "^2.6.2",
+    "fs": "0.0.1-security",
+    "helmet": "^3.8.1",
+    "html-pdf": "^2.2.0",
+    "jquery": "^3.3.1",
+    "moment": "^2.24.0",
+    "mongoose-auto-increment": "^5.0.1",
+    "node-sass": "^4.5.3",
+    "periodicjs": "^10.6.6",
+    "periodicjs.ext.admin": "^10.6.4",
+    "periodicjs.ext.dblogger": "^10.6.3",
+    "periodicjs.ext.dbseed": "^10.3.0",
+    "periodicjs.ext.oauth2client": "^8.0.0",
+    "periodicjs.ext.oauth2server": "^10.5.21",
+    "periodicjs.ext.packagecloud": "^6.0.1",
+    "periodicjs.ext.passport": "^6.1.2",
+    "periodicjs.ext.reactapp": "^10.10.0",
+    "periodicjs.ext.user_access_control": "^10.0.3"
+  }
+}

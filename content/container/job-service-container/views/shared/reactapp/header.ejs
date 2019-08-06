@@ -1,0 +1,110 @@
+<script>
+  <%- locals.periodic.viewHelper.passObjToClient(locals.periodic.client_configurations, "client_configurations")%>
+</script>
+<script>
+    function personalLoanApplicationOnChange(e, after) {
+        if(window.refForm) window.refForm.props.setDynamicData('formData', e);
+    }
+    window.personalLoanApplicationOnChange = personalLoanApplicationOnChange;
+
+    let applicationRefForm = function(form){
+        window.refForm = form;
+        if(window.refForm){
+            window.refForm.props.onChange = personalLoanApplicationOnChange.bind(window.refForm);
+        }
+    }
+    window.applicationRefForm = applicationRefForm;
+
+  let _formaterPhoneNumber = function (phone) {
+    var phoneNumber;
+    var areaCode;
+    var localNumber;
+    phoneNumber = phone.replace(/\D/gi, '');
+    areaCode = phoneNumber.substring(0, 3);
+    areaCode = (phoneNumber.length < 4) ? areaCode : `(${areaCode}) `;
+    localNumber = phoneNumber.substring(3, phoneNumber.length);
+    localNumber = (localNumber.length <= 3) ? localNumber.substring(0, 3) : localNumber.substring(0, 3) + '-' + localNumber.substring(3, localNumber.length);
+    return areaCode + localNumber;
+  };
+
+  let _formatPhoneNumbers = function (phone) {
+    if (phone) {
+      phone = (typeof phone !== 'string') ? phone.toString() : phone;
+      return _formaterPhoneNumber(phone);
+    }
+    return phone;
+  };
+
+  let formatPhoneNumber = function (e, element) {
+    let currentVal = _formatPhoneNumbers(e.target.value);
+    currentVal = currentVal.substring(0, 14);
+    let updated_state = {};
+    updated_state[ element.name ] = currentVal;
+    this.setState(updated_state);
+  };
+  window.formatPhoneNumber = formatPhoneNumber;
+
+   const validNumberKeys = '0123456789';
+   function editKeyBoard(ev, objKeyb, firstCharValidation) {
+      let strWork = objKeyb.getValid();
+      let blnValidChar = false;			// Valid character flag  
+      // Part 1: Validate input  
+      if (!blnValidChar) {
+        //First Character Validation
+        if (ev.target.value.length === 0 &&
+          firstCharValidation &&
+          firstCharValidation.indexOf(String.fromCharCode(ev.which)) >= 0)
+          blnValidChar = false;
+        else if (strWork.indexOf(String.fromCharCode(ev.which)) >= 0) blnValidChar = true;
+      }
+      // Part 2: Clear invalid character
+      if (!blnValidChar) {
+        ev.returnValue = false;
+        ev.preventDefault();
+      }
+    }
+
+    function keyboardEdit(strValid) {
+      let reWork = new RegExp('[a-z]', 'gi');		//	Regular expression\
+      if (reWork.test(strValid)) this.valid = strValid.toLowerCase() + strValid.toUpperCase();
+      else this.valid = strValid;
+      this.getValid = keyboardEditGetValid;
+      function keyboardEditGetValid() {
+        return this.valid.toString();
+      }
+    }
+    
+    window.validateNumberInput = function (event, element) {
+      editKeyBoard(event, new keyboardEdit(validNumberKeys), '');
+    }
+
+    function billionMaskDollarInput(rawValue) {
+        return {
+            prefix: '$',
+            suffix: '', // This will put the dollar sign at the end, with a space.
+            integerLimit: 10,
+        };
+    }
+    window.billionMaskDollarInput = billionMaskDollarInput;
+
+     function taxIdInputLimit(rawValue) {
+        return {
+            includeThousandsSeparator: false,
+            prefix: '',
+            suffix: '',
+            integerLimit: 9,
+        };
+    }
+    window.taxIdInputLimit = taxIdInputLimit;
+
+
+    function resetStateTab() {
+      document.body.getElementsByClassName('terms')[0].children[0].querySelectorAll('li').forEach(element => {
+        element.addEventListener('click', () => {
+          window.overlayProps.dynamic.selectedofferdata = {};
+        });
+      });
+    };
+    window.resetStateTab = resetStateTab;
+</script>
+<script type="text/javascript" src="/container/job-service-container/public/build/bundle.js"></script>
